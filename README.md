@@ -27,7 +27,7 @@ networks:
       com.docker.network.bridge.name: fwdproxy
 ```
 
-## Test
+## Test proxy works
 
 `http_proxy=192.168.123.2:8118 https_proxy=192.168.123.2:8118 curl -L -k example.org`
 
@@ -42,8 +42,8 @@ The tinyproxy container can access resources on the internet but also *local mac
 ```shell
 # prevent access to machines in local network 
 sudo iptables -I DOCKER-USER -m iprange --in-interface fwdproxy --dst-range 192.168.123.2-192.168.123.255 -j REJECT
-# if 192.168.42.1 is the default gateway it cannot be blocked completely, but at least access to the admin webui can be blocked
-sudo iptables -I DOCKER-USER -p tcp --in-interface fwdproxy -d 192.168.42.1 --dport 1:1024  -j REJECT
+# if 192.168.123.1 is the default gateway it cannot be blocked completely, but at least access to the admin webui can be blocked
+sudo iptables -I DOCKER-USER -p tcp --in-interface fwdproxy -d 192.168.123.1 --dport 1:1024  -j REJECT
 ```
 Network interface name "fwdproxy" has been defined in docker compose snippet above.
 
@@ -91,6 +91,6 @@ test rules work: `sudo netfilter-persistent reload`
 
 4. reboot
 
-5. test
+5. check rules are applied
 
 `sudo iptables -S | grep fwdproxy`
