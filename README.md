@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     mem_limit: 150m
     ports:
-      - 192.168.123.2:8118:8080  # 192.168.123.2 is the ip addr of the host (optional)
+      - 192.168.123.2:8118:8080  # 192.168.123.2 is the ip addr of the host (optional, defaults to bind to all interfaces)
     networks:
       - restricted
 
